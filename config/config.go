@@ -5,13 +5,10 @@ import (
 	"log"
 	"os"
 
+	"github.com/adicipta/Technical-Test-Klik-Digital-Sinergi/models"
 	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-)
-
-var (
-	db *gorm.DB
 )
 
 func SetupDB() *gorm.DB {
@@ -34,9 +31,17 @@ func SetupDB() *gorm.DB {
 		dbName)
 
 	var err error
-	db, err := gorm.Open(mysql.Open(connectionString))
+	db, err := gorm.Open(mysql.Open(connectionString), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}
+	InitMigration(db)
 	return db
+}
+
+func InitMigration(db *gorm.DB) {
+	db.Migrator().DropTable(&models.User{})
+	db.AutoMigrate(&models.User{})
+	db.AutoMigrate(&models.Staff{})
+	db.AutoMigrate(&models.Login{})
 }
