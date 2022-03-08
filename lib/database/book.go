@@ -9,10 +9,10 @@ import (
 
 type BookModel interface {
 	GetBooks() ([]models.Book, error)
-	GetBookById(id uint) (models.Book, error)
+	GetBookById(id int) (models.Book, error)
 	AddBook(book models.Book) (models.Book, error)
-	EditBookById(id uint, newBook models.Book) (models.Book, error)
-	DeleteBookById(id uint) error
+	EditBookById(id int, newBook models.Book) (models.Book, error)
+	DeleteBookById(id int) error
 }
 
 type BookDB struct {
@@ -34,7 +34,7 @@ func (bdb *BookDB) GetBooks() ([]models.Book, error) {
 	return books, nil
 }
 
-func (bdb *BookDB) GetBookById(id uint) (models.Book, error) {
+func (bdb *BookDB) GetBookById(id int) (models.Book, error) {
 	var book models.Book
 	err := bdb.db.Where("id = ?", id).First(&book).Error
 	if err != nil {
@@ -50,7 +50,7 @@ func (bdb *BookDB) AddBook(books models.Book) (models.Book, error) {
 	return books, nil
 }
 
-func (bdb *BookDB) EditBookById(id uint, newBook models.Book) (models.Book, error) {
+func (bdb *BookDB) EditBookById(id int, newBook models.Book) (models.Book, error) {
 	var book models.Book
 	if err := bdb.db.First(&book, id).Error; err != nil {
 		return book, err
@@ -66,7 +66,7 @@ func (bdb *BookDB) EditBookById(id uint, newBook models.Book) (models.Book, erro
 	return book, nil
 }
 
-func (bdb *BookDB) DeleteBookById(id uint) error {
+func (bdb *BookDB) DeleteBookById(id int) error {
 	rows := bdb.db.Delete(&models.Book{}, id).RowsAffected
 	if rows == 0 {
 		err := errors.New("not found")

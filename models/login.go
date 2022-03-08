@@ -3,11 +3,11 @@ package models
 import "time"
 
 type Login struct {
-	ID        uint      `gorm:"primarykey;AUTO_INCREMENT"`
+	ID        int       `gorm:"primarykey;AUTO_INCREMENT"`
 	Username  string    `gorm:"type:varchar(55);unique" json:"username"`
 	Password  string    `gorm:"type:varchar(255)" json:"password"`
 	Role      string    `gorm:"type:enum('staff','user')" json:"role"`
-	UserID    uint      `gorm:"type:uint"`
+	UserID    int       `gorm:"type:uint"`
 	User      User      `gorm:"foreignkey:UserID;"`
 	Token     string    `gorm:"type:longtext;"`
 	CreatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
