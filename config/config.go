@@ -44,4 +44,7 @@ func InitMigration(db *gorm.DB) {
 	db.AutoMigrate(&models.User{})
 	db.AutoMigrate(&models.Staff{})
 	db.AutoMigrate(&models.Login{})
+	db.AutoMigrate(&models.Cart{})
+	db.AutoMigrate(&models.Book{})
+	db.AutoMigrate(&models.CartItem{})
 }

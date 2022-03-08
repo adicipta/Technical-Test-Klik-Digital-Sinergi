@@ -7,8 +7,10 @@ type Login struct {
 	Username  string    `gorm:"type:varchar(55);unique" json:"username"`
 	Password  string    `gorm:"type:varchar(255)" json:"password"`
 	Role      string    `gorm:"type:enum('staff','user')" json:"role"`
-	UserID    int       `gorm:"type:uint"`
+	UserID    int       `gorm:"type:int"`
 	User      User      `gorm:"foreignkey:UserID;"`
+	StaffID   int       `gorm:"type:int"`
+	Staff     Staff     `gorm:"foreignkey:StaffID"`
 	Token     string    `gorm:"type:longtext;"`
 	CreatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
 	UpdatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
