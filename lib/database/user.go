@@ -27,6 +27,7 @@ func (m *UserDB) CreateUser(user models.User) (models.User, error) {
 	if err := m.db.Save(&user).Error; err != nil {
 		return user, err
 	}
+
 	return user, nil
 }
 
@@ -39,6 +40,7 @@ func (m *UserDB) GetAllUser() ([]models.ResponseGetUser, error) {
 		err := errors.New("is empty")
 		return nil, err
 	}
+
 	return users, nil
 }
 
@@ -61,6 +63,7 @@ func (m *UserDB) UpdateUser(id uint, newUser models.User) (models.User, error) {
 
 func (m *UserDB) GetUserProfile(id uint) (models.ResponseGetUser, error) {
 	var profile models.ResponseGetUser
+
 	if err := m.db.Raw("SELECT u.id, u.name, u.address, u.gender, u.phone_number, l.username, l.role FROM users JOIN logins l ON u.id = l.user_id WHERE user_id = ?", id).Scan(&profile).Error; err != nil {
 		return profile, err
 	}

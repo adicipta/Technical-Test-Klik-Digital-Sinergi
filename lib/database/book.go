@@ -25,21 +25,25 @@ func NewBookDB(db *gorm.DB) *BookDB {
 
 func (bdb *BookDB) GetBooks() ([]models.Book, error) {
 	var books []models.Book
+
 	if err := bdb.db.Find(&books).Error; err != nil {
 		return nil, err
 	} else if len(books) == 0 {
 		err := errors.New("is empty")
 		return nil, err
 	}
+
 	return books, nil
 }
 
 func (bdb *BookDB) GetBookById(id int) (models.Book, error) {
 	var book models.Book
+
 	err := bdb.db.Where("id = ?", id).First(&book).Error
 	if err != nil {
 		return book, err
 	}
+
 	return book, nil
 }
 
@@ -47,11 +51,13 @@ func (bdb *BookDB) AddBook(books models.Book) (models.Book, error) {
 	if err := bdb.db.Save(&books).Error; err != nil {
 		return books, err
 	}
+
 	return books, nil
 }
 
 func (bdb *BookDB) EditBookById(id int, newBook models.Book) (models.Book, error) {
 	var book models.Book
+
 	if err := bdb.db.First(&book, id).Error; err != nil {
 		return book, err
 	}
@@ -63,14 +69,17 @@ func (bdb *BookDB) EditBookById(id int, newBook models.Book) (models.Book, error
 		err := errors.New("not found")
 		return book, err
 	}
+
 	return book, nil
 }
 
 func (bdb *BookDB) DeleteBookById(id int) error {
 	rows := bdb.db.Delete(&models.Book{}, id).RowsAffected
+
 	if rows == 0 {
 		err := errors.New("not found")
 		return err
 	}
+
 	return nil
 }
